@@ -121,7 +121,7 @@ namespace ContentGatherer
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        public void autodetectContent()
         {
             string path = Environment.ExpandEnvironmentVariables("%APPDATA%\\DAZ 3D\\Studio4\\ContentDirectoryManager.dsx");
             if (File.Exists(path))
@@ -158,6 +158,17 @@ namespace ContentGatherer
             {
                 DetectPoser(path);
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            autodetectContent();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Program.info = new Form3();
+            Program.info.ShowDialog();
         }
     }
 }

@@ -21,3 +21,15 @@ C:\Users\fisk\source\repos\ContentGatherer\ContentGatherer\obj\Debug\ContentGath
 C:\Users\fisk\source\repos\ContentGatherer\ContentGatherer\obj\Debug\ContentGatherer.csproj.CoreCompileInputs.cache
 C:\Users\fisk\source\repos\ContentGatherer\ContentGatherer\obj\Debug\ContentGatherer.exe
 C:\Users\fisk\source\repos\ContentGatherer\ContentGatherer\obj\Debug\ContentGatherer.pdb
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\bin\Debug\ContentGatherer.exe.config
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\bin\Debug\ContentGatherer.exe
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\bin\Debug\ContentGatherer.pdb
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.csproj.AssemblyReference.cache
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.Form1.resources
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.Form2.resources
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.Properties.Resources.resources
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.csproj.GenerateResource.cache
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.csproj.CoreCompileInputs.cache
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.exe
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.pdb
+C:\Users\fisky\Documents\GitHub\DAZContentCollector\ContentGatherer\obj\Debug\ContentGatherer.Form3.resources

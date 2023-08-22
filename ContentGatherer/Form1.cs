@@ -175,7 +175,8 @@ namespace ContentGatherer
             {
                 System.IO.File.Delete(duf_new);
             }
-            dataGridView2.Rows.Add(openFileDialog1.FileName, fename, count);
+            duf = duf.Replace("\\","/");
+            dataGridView2.Rows.Add(duf, fename, count);
         }
         private void AnalizeAddCR2(string duf, string fename)
         {
@@ -235,6 +236,7 @@ namespace ContentGatherer
                     }
                 }
             }
+            duf = duf.Replace('\\', '/');
             dataGridView2.Rows.Add(duf, fename, links);
         }
 
@@ -265,7 +267,7 @@ namespace ContentGatherer
             label4.Text = "Collecting...";
             label4.Visible = true;
             label4.Update();
-            if (Program.Content.listBox1.Items.Count < 1)
+            if (Program.Content.listBox1.Items.Count < 1) //Check is libraries are added9
             {
                 MessageBox.Show("You forgot to add your libraies!\n" +
                     "Click \"Content Folders\",\n" +
@@ -282,7 +284,7 @@ namespace ContentGatherer
                 //folderBrowserDialog1.ShowDialog();
                 //string outfolder = folderBrowserDialog1.SelectedPath + '/';
                 outfolder = outfolder.Replace("\\", "/");
-                foreach (DataGridViewRow pth in dataGridView1.Rows)
+                foreach (DataGridViewRow pth in dataGridView1.Rows) //Collecting dependent files
                 {
                     string outfile = outfolder + pth.Cells[0].Value.ToString();
                     FileInfo file = new FileInfo(outfile);
@@ -319,58 +321,43 @@ namespace ContentGatherer
                         label4.Update();
                     }
                 }
-                foreach (DataGridViewRow pth in dataGridView2.Rows)
+                foreach (DataGridViewRow pth in dataGridView2.Rows) //Collecting main files
                 {
-                    string outfile = outfolder + pth.Cells[0].Value.ToString();
-                    FileInfo file = new FileInfo(outfile);
-                    file.Directory.Create();
-                    string infile = Program.Content.listBox1.Items[0] + pth.ToString();
-                    if (System.IO.File.Exists(infile) == false)
+                    string outMainFile = "";
+                    bool found = false;
+                    for(int i = 0; i < Program.Content.listBox1.Items.Count; i++)
                     {
-                        foreach (string num in Program.Content.listBox1.Items)
+                        if (pth.Cells[0].Value.ToString().Contains(Program.Content.listBox1.Items[i].ToString()) == true)
                         {
-
-                            infile = num + pth.Cells[0].Value.ToString();
-                            if (System.IO.File.Exists(infile) == true)
+                            outMainFile = pth.Cells[0].Value.ToString().Substring(Program.Content.listBox1.Items[i].ToString().Length);
+                            found = true;
+                        }
+                        if(found == true)
+                        {
+                            FileInfo file = new FileInfo(outfolder + outMainFile);
+                            file.Directory.Create();
+                            System.IO.File.Copy(pth.Cells[0].Value.ToString(), outfolder + outMainFile, true);
+                            if (pth.Cells[0].Value.ToString().Contains(".duf"))
                             {
-                                break;
+                                string InMainFileIcon = pth.Cells[0].Value.ToString().Replace(".duf", ".duf.png");
+                                string OutMainFileIcon = outMainFile.Replace(".duf", ".duf.png");
+                                System.IO.File.Copy(InMainFileIcon, outfolder + OutMainFileIcon, true);
+                            }
+                            else
+                            {
+                                string InMainFileIcon = pth.Cells[0].Value.ToString().Replace(".cr2", ".png");
+                                string OutMainFileIcon = outMainFile.Replace(".cr2", ".png");
+                                System.IO.File.Copy(InMainFileIcon, outfolder + OutMainFileIcon, true);
                             }
                         }
-                        if (System.IO.File.Exists(infile) == false)
+                        else
                         {
-                            DialogResult result = MessageBox.Show($"File {infile} was not found! Want to find it by yourself?", "", MessageBoxButtons.YesNo);
-
-                            if (result == DialogResult.Yes)
-                            {
-                                openFileDialog2.ShowDialog();
-                                infile = openFileDialog2.FileName;
-                            }
+                            MessageBox.Show($"File {outfolder + outMainFile} not found. Fuck you.");
                         }
-                    }
-                    if (System.IO.File.Exists(infile) == true)
-                    {
-                        System.IO.File.Copy(infile, outfile, true);
                     }
                 }
                 label4.Text = "ZIPping...";
                 label4.Update();
-                string ifile = openFileDialog1.FileName;
-                string otfile = outfolder + ColectMainFile(openFileDialog1.FileName);
-                FileInfo fil = new FileInfo(otfile);
-                fil.Directory.Create();
-                System.IO.File.Copy(ifile, otfile, true);
-                if (ifile.Contains(".duf"))
-                {
-                    ifile = ifile.Replace(".duf", ".duf.png");
-                    otfile = otfile.Replace(".duf", ".duf.png");
-                    System.IO.File.Copy(ifile, otfile, true);
-                }
-                else
-                {
-                    ifile = ifile.Replace(".cr2", ".png");
-                    otfile = otfile.Replace(".cr2", ".png");
-                    System.IO.File.Copy(ifile, otfile, true);
-                }
                 var readme = System.IO.File.OpenWrite(outfolder + "readme.txt");
                 using (var writer = new StreamWriter(readme, Encoding.UTF8))
                 {
@@ -382,6 +369,9 @@ namespace ContentGatherer
                 MessageBox.Show("Done!", "", MessageBoxButtons.OK);
                 label4.Text = "Done!";
                 label4.Update();
+                progressBar1.Value = 0;
+                progressBar1.Visible = false;
+                label4.Visible = false;
             }
         }
 
@@ -432,10 +422,11 @@ namespace ContentGatherer
             }
             else
             {
-                MessageBox.Show("Add your libraries first! Click \"Content Folders\",\n" +
-                    "add your folders (like \"C:/Poser/Content/\") and press \"Save\".\n" +
-                    "Then you can press \"Close\". You can also press \"Autodetect\" if\n" +
-                    "your content folders are properly set in DAZ Studio or Poser");
+                Program.Content.autodetectContent();
+                MessageBox.Show("Your content folders were detected! Click \"Content Folders\",\n" +
+                                 "if you want to check what folders were added. You can add more\n" +
+                                 "and save the list for future. Click \"Where are my folders?\"\n" +
+                                 "if you don't see your content folders!");
             }
         }
 

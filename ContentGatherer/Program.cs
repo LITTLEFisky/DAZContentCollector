@@ -17,6 +17,7 @@ namespace ContentGatherer
         public static string version = "0.8.1";
         public static string temp;
         public static Form2 Content;
+        public static Form3 info;
         [STAThread]
         static void Main()
         {

@@ -37,6 +37,7 @@ namespace ContentGatherer
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBox1
@@ -44,7 +45,7 @@ namespace ContentGatherer
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 25);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(190, 173);
+            this.listBox1.Size = new System.Drawing.Size(190, 199);
             this.listBox1.TabIndex = 0;
             // 
             // label1
@@ -78,7 +79,7 @@ namespace ContentGatherer
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(208, 175);
+            this.button3.Location = new System.Drawing.Point(208, 201);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -88,7 +89,7 @@ namespace ContentGatherer
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(208, 146);
+            this.button4.Location = new System.Drawing.Point(208, 172);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 5;
@@ -106,11 +107,22 @@ namespace ContentGatherer
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(208, 119);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 38);
+            this.button6.TabIndex = 7;
+            this.button6.Text = "Where are my folders?";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 210);
+            this.ClientSize = new System.Drawing.Size(290, 232);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -135,5 +147,6 @@ namespace ContentGatherer
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
     }
 }

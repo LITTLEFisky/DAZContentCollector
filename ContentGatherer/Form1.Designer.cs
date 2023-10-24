@@ -39,7 +39,7 @@ namespace ContentGatherer
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.button4 = new System.Windows.Forms.Button();
+            this.AddBTN = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -51,12 +51,14 @@ namespace ContentGatherer
             this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.File = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DepSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.FilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LinksCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button3 = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -143,15 +145,15 @@ namespace ContentGatherer
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
-            // button4
+            // AddBTN
             // 
-            this.button4.Location = new System.Drawing.Point(32, 37);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "Add";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.AddBTN.Location = new System.Drawing.Point(32, 37);
+            this.AddBTN.Name = "AddBTN";
+            this.AddBTN.Size = new System.Drawing.Size(75, 23);
+            this.AddBTN.TabIndex = 11;
+            this.AddBTN.Text = "Add";
+            this.AddBTN.UseVisualStyleBackColor = true;
+            this.AddBTN.Click += new System.EventHandler(this.AddBTN_Click);
             // 
             // button5
             // 
@@ -218,23 +220,25 @@ namespace ContentGatherer
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Path,
             this.Type,
-            this.File});
+            this.File,
+            this.DepSize});
             this.dataGridView1.Location = new System.Drawing.Point(12, 252);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(683, 222);
             this.dataGridView1.TabIndex = 17;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Path
             // 
             this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Path.FillWeight = 65F;
+            this.Path.FillWeight = 55F;
             this.Path.HeaderText = "Path";
             this.Path.Name = "Path";
             // 
             // Type
             // 
             this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Type.FillWeight = 20F;
+            this.Type.FillWeight = 15F;
             this.Type.HeaderText = "Type";
             this.Type.Name = "Type";
             // 
@@ -244,6 +248,13 @@ namespace ContentGatherer
             this.File.FillWeight = 15F;
             this.File.HeaderText = "File";
             this.File.Name = "File";
+            // 
+            // DepSize
+            // 
+            this.DepSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.DepSize.FillWeight = 15F;
+            this.DepSize.HeaderText = "File Size";
+            this.DepSize.Name = "DepSize";
             // 
             // label2
             // 
@@ -270,7 +281,8 @@ namespace ContentGatherer
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FilePath,
             this.FileName,
-            this.LinksCount});
+            this.LinksCount,
+            this.Size});
             this.dataGridView2.Location = new System.Drawing.Point(12, 105);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(682, 128);
@@ -280,7 +292,7 @@ namespace ContentGatherer
             // FilePath
             // 
             this.FilePath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FilePath.FillWeight = 60F;
+            this.FilePath.FillWeight = 55F;
             this.FilePath.HeaderText = "FilePath";
             this.FilePath.Name = "FilePath";
             this.FilePath.ReadOnly = true;
@@ -288,7 +300,7 @@ namespace ContentGatherer
             // FileName
             // 
             this.FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FileName.FillWeight = 30F;
+            this.FileName.FillWeight = 20F;
             this.FileName.HeaderText = "FileName";
             this.FileName.Name = "FileName";
             // 
@@ -298,6 +310,13 @@ namespace ContentGatherer
             this.LinksCount.FillWeight = 10F;
             this.LinksCount.HeaderText = "LinksCount";
             this.LinksCount.Name = "LinksCount";
+            // 
+            // Size
+            // 
+            this.Size.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Size.FillWeight = 15F;
+            this.Size.HeaderText = "FileSize";
+            this.Size.Name = "Size";
             // 
             // button3
             // 
@@ -372,7 +391,7 @@ namespace ContentGatherer
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.AddBTN);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -405,7 +424,7 @@ namespace ContentGatherer
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button AddBTN;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
@@ -419,13 +438,7 @@ namespace ContentGatherer
         private System.Windows.Forms.BindingSource form1BindingSource2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Path;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn File;
         public System.Windows.Forms.DataGridView dataGridView2;
-        public System.Windows.Forms.DataGridViewTextBoxColumn FilePath;
-        public System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        public System.Windows.Forms.DataGridViewTextBoxColumn LinksCount;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -433,6 +446,14 @@ namespace ContentGatherer
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Path;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn File;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DepSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FilePath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LinksCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Size;
     }
 }
 

@@ -161,7 +161,35 @@ namespace ContentGatherer
 
                             if (present == false)
                             {
-                                dataGridView1.Rows.Add(line, type, fename);
+                                long partsize = 0;
+                                string infile = Program.Content.listBox1.Items[0] + line;
+                                if (System.IO.File.Exists(infile) == false)
+                                {
+                                    foreach (string num in Program.Content.listBox1.Items)
+                                    {
+
+                                        infile = num + line;
+                                        if (System.IO.File.Exists(infile) == true)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    if (System.IO.File.Exists(infile) == false)
+                                    {
+                                        DialogResult result = MessageBox.Show($"File {infile} was not found! Want to find it by yourself?", "", MessageBoxButtons.YesNo);
+
+                                        if (result == DialogResult.Yes)
+                                        {
+                                            openFileDialog2.ShowDialog();
+                                            infile = openFileDialog2.FileName;
+                                        }
+                                    }
+                                }
+                                if (System.IO.File.Exists(infile) == true)
+                                {
+                                    partsize = new FileInfo(infile).Length / 1024;
+                                }
+                                dataGridView1.Rows.Add(line, type, fename, partsize + " KBytes");
                                 count++;
                                 dataGridView1.Update();
                                 label1.Text = Convert.ToString(dataGridView1.Rows.Count);
@@ -176,8 +204,31 @@ namespace ContentGatherer
                 System.IO.File.Delete(duf_new);
             }
             duf = duf.Replace("\\","/");
-            dataGridView2.Rows.Add(duf, fename, count);
+
+            long size = new FileInfo(duf).Length / 1024;
+            dataGridView2.Rows.Add(duf, fename, count, size + " Kbytes");
+            label4.Text = $"Approximate total size: {countsizes()} KBytes";
+            label4.Visible = true;
+            label4.Update();
         }
+
+        private long countsizes()
+        {
+            long count = 0;
+            
+            foreach(DataGridViewRow row in dataGridView1.Rows)
+            {
+                count += Convert.ToInt64(row.Cells[3].Value.ToString().Remove(row.Cells[3].Value.ToString().Length - 6));
+            }
+
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                count += Convert.ToInt64(row.Cells[3].Value.ToString().Remove(row.Cells[3].Value.ToString().Length - 6));
+            }
+
+            return count;
+        }
+
         private void AnalizeAddCR2(string duf, string fename)
         {
             int links = 0;
@@ -226,18 +277,52 @@ namespace ContentGatherer
 
                         if (present == false)
                         {
-                            links++;
-                            dataGridView1.Rows.Add(line, type, fename);
+                            long partsize = 0;
+                            string infile = Program.Content.listBox1.Items[0] + line;
+                            if (System.IO.File.Exists(infile) == false)
+                            {
+                                foreach (string num in Program.Content.listBox1.Items)
+                                {
+
+                                    infile = num + line;
+                                    if (System.IO.File.Exists(infile) == true)
+                                    {
+                                        break;
+                                    }
+                                }
+                                if (System.IO.File.Exists(infile) == false)
+                                {
+                                    DialogResult result = MessageBox.Show($"File {infile} was not found! Want to find it by yourself?", "", MessageBoxButtons.YesNo);
+
+                                    if (result == DialogResult.Yes)
+                                    {
+                                        openFileDialog2.ShowDialog();
+                                        infile = openFileDialog2.FileName;
+                                    }
+                                }
+                            }
+                            if (System.IO.File.Exists(infile) == true)
+                            {
+                                partsize = new FileInfo(infile).Length / 1024;
+                            }
+                            dataGridView1.Rows.Add(line, type, fename, partsize + " KBytes");
                             dataGridView1.Update();
                             label1.Text = Convert.ToString(dataGridView1.Rows.Count);
                             label1.Update();
+                            links++;
+
                         }
 
                     }
                 }
             }
+            long size = new FileInfo(duf).Length / 1024;
             duf = duf.Replace('\\', '/');
-            dataGridView2.Rows.Add(duf, fename, links);
+            dataGridView2.Rows.Add(duf, fename, links, size + " KBytes");
+
+            label4.Text = $"Approximate total size: {countsizes()} KBytes";
+            label4.Visible = true;
+            label4.Update();
         }
 
         private void RemoveItem(int filescount, string fename)
@@ -352,7 +437,7 @@ namespace ContentGatherer
                         }
                         else
                         {
-                            MessageBox.Show($"File {outfolder + outMainFile} not found. Fuck you.");
+                            Thread.Sleep(10);
                         }
                     }
                 }
@@ -430,7 +515,7 @@ namespace ContentGatherer
             }
         }
 
-        private void button4_Click(object sender, EventArgs e) //Add button
+        private void AddBTN_Click(object sender, EventArgs e) //Add button
         {
             openFileDialog1.ShowDialog();
             string fename = openFileDialog1.FileName.Substring(ProcessSubString(openFileDialog1.FileName, "backward"));
@@ -456,12 +541,19 @@ namespace ContentGatherer
             dataGridView2.Rows.RemoveAt(rowindex);
             string fename = (string)row.Cells[1].Value.ToString();
             RemoveItem(Convert.ToInt32(row.Cells[2].Value), fename);
+
+            label4.Text = $"Approximate total size: {countsizes()} KBytes";
+            label4.Visible = true;
+            label4.Update();
         }
 
         private void button6_Click(object sender, EventArgs e) //clean button
         {
             dataGridView1.Rows.Clear();
             dataGridView2.Rows.Clear();
+            label4.Text = $"Approximate total size: {countsizes()} KBytes";
+            label4.Visible = true;
+            label4.Update();
         }
 
         private void button8_Click(object sender, EventArgs e) //Save list button
@@ -551,6 +643,37 @@ namespace ContentGatherer
         private void button9_Click(object sender, EventArgs e)
         {
             Process.Start("https://boosty.to/littlefisky/single-payment/donation/451573/target?share=target_link");
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string infile = Program.Content.listBox1.Items[0] + dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            if (System.IO.File.Exists(infile) == false)
+            {
+                foreach (string num in Program.Content.listBox1.Items)
+                {
+
+                    infile = num + dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                    if (System.IO.File.Exists(infile) == true)
+                    {
+                        break;
+                    }
+                }
+                if (System.IO.File.Exists(infile) == false)
+                {
+                    DialogResult result = MessageBox.Show($"File {infile} was not found! Want to find it by yourself?", "", MessageBoxButtons.YesNo);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        openFileDialog2.ShowDialog();
+                        infile = openFileDialog2.FileName;
+                    }
+                }
+            }
+            if (System.IO.File.Exists(infile) == true)
+            {
+                System.Diagnostics.Process.Start(infile);
+            }
         }
     }
 }
